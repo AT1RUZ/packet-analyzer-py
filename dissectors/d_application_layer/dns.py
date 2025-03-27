@@ -3,7 +3,7 @@ from utils import byte_ops
 
 class DNSDissector(Dissector):
     def dissect(self, packet):
-        data = packet.raw_data
+        data = packet.get_payload()
         transaction_id = byte_ops.read_uint16_be(data[0:2])
         flags = byte_ops.read_uint16_be(data[2:4])
         qdcount = byte_ops.read_uint16_be(data[4:6])

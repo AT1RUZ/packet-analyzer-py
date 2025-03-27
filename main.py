@@ -1,4 +1,5 @@
 from core.packet import Packet
+from core.registry import *
 from dissectors.a_link_layer.ethernet import EthernetDissector
 
 def analyze_packet(raw_data):
@@ -7,10 +8,6 @@ def analyze_packet(raw_data):
     payload = raw_data
     c = 1
     while current_dissector and payload:
-        if c==3:
-            print("PAYLOAD QUE SALIO A FUERA")
-            print("Payload: " + str(c) , payload[:20])
-        c+=1
         payload, next_dissector_class = current_dissector.dissect(packet)
         if next_dissector_class:
             current_dissector = next_dissector_class()
@@ -53,16 +50,18 @@ raw_packet_6_tcp_http = (
     b'GET / HTTP/1.1\r\nHost: example.com\r\n\r\n'
 )
 
-# print("Paquete (IPv6 + UDP + DNS): ")
-# result_6_udp_dns = analyze_packet(raw_packet_6_udp_dns)
-# print("Capas identificadas:", result_6_udp_dns.layers)
+result_6_udp_dns = analyze_packet(raw_packet_6_udp_dns)
+print("\n")
+print("Paquete (IPv6 + UDP + DNS): ")
+print("Capas identificadas:", result_6_udp_dns.layers)
 
 # print("Paquete (Ethernet + IPv4 + TCP + HTTP): ")
 # result_4_tcp_http = analyze_packet(raw_packet_4_tcp_http)
 # print("Capas identificadas:", result_4_tcp_http.layers)
 
-# print("Paquete (IPv6 + IPv6 + TCP + HTTP): ")
 # result_6_tcp_http = analyze_packet(raw_packet_6_tcp_http)
+# print("\n")
+# print("Paquete (IPv6 + IPv6 + TCP + HTTP): ")
 # print("Capas identificadas:", result_6_tcp_http.layers)
 
 raw_packet = (
@@ -90,8 +89,8 @@ raw_packet = (
     b'Host: example.com\r\n\r\n'  # Cabecera Host + doble CRLF
 )
 
-print("Paquete de Prueba (Ethernet + IPv4 + TCP + HTTP)")
-resultxd = analyze_packet(raw_packet)
-print(resultxd.layers)
+# resultxd = analyze_packet(raw_packet)
+# print("Paquete de Prueba (Ethernet + IPv4 + TCP + HTTP)")
+# print(resultxd.layers)
 
 print("####################################################################################################")

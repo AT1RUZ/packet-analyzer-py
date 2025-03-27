@@ -6,7 +6,7 @@ from utils import byte_ops
 
 class IPv6Dissector(Dissector):
     def dissect(self, packet):
-        header = packet.raw_data[:40]
+        header = packet.get_payload()
         
         version = header[0] >> 4
         traffic_class = ((header[0] & 0x0F) << 4) | (header[1] >> 4)
@@ -29,7 +29,8 @@ class IPv6Dissector(Dissector):
         })
         
         next_dissector = DissectorRegistry.get_dissector('ip_proto', next_header)
-        return packet.get_payload(40), next_dissector
+        packet.set_current_offset(packet.get_current_offset() + 40)
+        return packet.get_payload(), next_dissector
 
 # Registro para protocolos comunes sobre IPv6
 DissectorRegistry.register('ip_proto', 6, TCPDissector)  # TCP

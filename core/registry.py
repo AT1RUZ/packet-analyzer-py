@@ -15,3 +15,6 @@ class DissectorRegistry:
     def get_dissector(cls, protocol_type, identifier):
         return cls._registry[protocol_type].get(identifier)
     
+    @classmethod
+    def get_registry(cls):
+        return cls._registry
