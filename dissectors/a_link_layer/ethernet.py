@@ -1,0 +1,28 @@
+from core.dissector import Dissector
+from dissectors.b_network_layer.ipv4 import *
+from dissectors.b_network_layer.ipv6 import *
+from core.registry import *
+from utils.byte_ops import extract_mac, read_uint16_be
+
+
+class EthernetDissector(Dissector):
+    def dissect(self, packet):
+        header = packet.raw_data[:14]
+        dest_mac = extract_mac(header[0:6])
+        src_mac = extract_mac(header[6:12])
+        ethertype = read_uint16_be(header[12:14])
+
+        packet.add_layer('Ethernet', {
+            'dest_mac': dest_mac,
+            'src_mac': src_mac,
+            'ethertype': f"0x{ethertype:04x}"
+        })
+        
+        next_dissector = DissectorRegistry.get_dissector('ethertype', ethertype)
+        
+        return packet.get_payload(14), next_dissector
+    
+DissectorRegistry.register('ethertype', 0x0800, IPv4Dissector)
+DissectorRegistry.register('ethertype', 0x86DD, IPv6Dissector)
+
+
