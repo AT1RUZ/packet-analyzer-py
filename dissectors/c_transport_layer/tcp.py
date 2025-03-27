@@ -6,14 +6,8 @@ from utils.byte_ops import read_uint16_be
 class TCPDissector(Dissector):
     def dissect(self, packet):
         info = packet.get_payload()
-        print("DENTRO DE TCP")
-        print(info)
-        print(info[0:2])
-        print(info[2:4])
         src_port = read_uint16_be(info[0:2])
-        print(src_port)
         dst_port = read_uint16_be(info[2:4])
-        print(dst_port)
         
         packet.add_layer('TCP', {
             'src_port': src_port,

@@ -50,19 +50,7 @@ raw_packet_6_tcp_http = (
     b'GET / HTTP/1.1\r\nHost: example.com\r\n\r\n'
 )
 
-result_6_udp_dns = analyze_packet(raw_packet_6_udp_dns)
-print("\n")
-print("Paquete (IPv6 + UDP + DNS): ")
-print("Capas identificadas:", result_6_udp_dns.layers)
 
-# print("Paquete (Ethernet + IPv4 + TCP + HTTP): ")
-# result_4_tcp_http = analyze_packet(raw_packet_4_tcp_http)
-# print("Capas identificadas:", result_4_tcp_http.layers)
-
-# result_6_tcp_http = analyze_packet(raw_packet_6_tcp_http)
-# print("\n")
-# print("Paquete (IPv6 + IPv6 + TCP + HTTP): ")
-# print("Capas identificadas:", result_6_tcp_http.layers)
 
 raw_packet = (
     # Ethernet (14 bytes)
@@ -89,8 +77,24 @@ raw_packet = (
     b'Host: example.com\r\n\r\n'  # Cabecera Host + doble CRLF
 )
 
-# resultxd = analyze_packet(raw_packet)
-# print("Paquete de Prueba (Ethernet + IPv4 + TCP + HTTP)")
-# print(resultxd.layers)
+print("Paquete de Prueba (Ethernet + IPv4 + TCP + HTTP)")
+resultxd = analyze_packet(raw_packet)
+print(resultxd.layers)
+print("\n")
+
+print("Paquete (ETHERNET + IPv6 + UDP + DNS): ")
+result_6_udp_dns = analyze_packet(raw_packet_6_udp_dns)
+print("Capas identificadas:", result_6_udp_dns.layers)
+print("\n")
+
+
+print("Paquete (Ethernet + IPv4 + TCP + HTTP): ")
+result_4_tcp_http = analyze_packet(raw_packet_4_tcp_http)
+print("Capas identificadas:", result_4_tcp_http.layers)
+print("\n")
+
+print("Paquete (ETHERNET + IPv6 + TCP + HTTP): ")
+result_6_tcp_http = analyze_packet(raw_packet_6_tcp_http)
+print("Capas identificadas:", result_6_tcp_http.layers)
 
 print("####################################################################################################")
