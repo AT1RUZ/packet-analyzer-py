@@ -7,7 +7,7 @@ from utils.byte_ops import extract_mac, read_uint16_be
 
 class EthernetDissector(Dissector):
     def dissect(self, packet):
-        header = packet.raw_data[:14]
+        header = packet.get_payload()
         dest_mac = extract_mac(header[0:6])
         src_mac = extract_mac(header[6:12])
         ethertype = read_uint16_be(header[12:14])
@@ -19,8 +19,8 @@ class EthernetDissector(Dissector):
         })
         
         next_dissector = DissectorRegistry.get_dissector('ethertype', ethertype)
-        
-        return packet.get_payload(14), next_dissector
+        packet.set_current_offset(14)
+        return packet.get_payload(), next_dissector
     
 DissectorRegistry.register('ethertype', 0x0800, IPv4Dissector)
 DissectorRegistry.register('ethertype', 0x86DD, IPv6Dissector)

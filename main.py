@@ -7,7 +7,9 @@ def analyze_packet(raw_data):
     payload = raw_data
     c = 1
     while current_dissector and payload:
-        print("Payload: " + str(c) , payload)
+        if c==3:
+            print("PAYLOAD QUE SALIO A FUERA")
+            print("Payload: " + str(c) , payload[:20])
         c+=1
         payload, next_dissector_class = current_dissector.dissect(packet)
         if next_dissector_class:
