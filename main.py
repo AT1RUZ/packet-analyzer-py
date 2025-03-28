@@ -2,6 +2,16 @@ from core.packet import Packet
 from core.registry import *
 from dissectors.a_link_layer.ethernet import EthernetDissector
 
+import numpy as np
+import pyshark
+import streamlit as st
+
+def pcap_to_array(packet):
+    print("DENTRO DE PCAP TO ARRAY")
+    print(packet)
+    return pyshark.FileCapture(packet)
+
+
 def analyze_packet(raw_data):
     packet = Packet(raw_data)
     current_dissector = EthernetDissector()
@@ -77,24 +87,31 @@ raw_packet = (
     b'Host: example.com\r\n\r\n'  # Cabecera Host + doble CRLF
 )
 
-print("Paquete de Prueba (Ethernet + IPv4 + TCP + HTTP)")
-resultxd = analyze_packet(raw_packet)
-print(resultxd.layers)
-print("\n")
+# print("Paquete de Prueba (Ethernet + IPv4 + TCP + HTTP)")
+# resultxd = analyze_packet(raw_packet)
+# print(resultxd.layers)
+# print("\n")
+#
+# print("Paquete (ETHERNET + IPv6 + UDP + DNS): ")
+# result_6_udp_dns = analyze_packet(raw_packet_6_udp_dns)
+# print("Capas identificadas:", result_6_udp_dns.layers)
+# print("\n")
+#
+#
+# print("Paquete (Ethernet + IPv4 + TCP + HTTP): ")
+# result_4_tcp_http = analyze_packet(raw_packet_4_tcp_http)
+# print("Capas identificadas:", result_4_tcp_http.layers)
+# print("\n")
+#
+# print("Paquete (ETHERNET + IPv6 + TCP + HTTP): ")
+# result_6_tcp_http = analyze_packet(raw_packet_6_tcp_http)
+# print("Capas identificadas:", result_6_tcp_http.layers)
+#
+# print("####################################################################################################")
 
-print("Paquete (ETHERNET + IPv6 + UDP + DNS): ")
-result_6_udp_dns = analyze_packet(raw_packet_6_udp_dns)
-print("Capas identificadas:", result_6_udp_dns.layers)
-print("\n")
-
-
-print("Paquete (Ethernet + IPv4 + TCP + HTTP): ")
-result_4_tcp_http = analyze_packet(raw_packet_4_tcp_http)
-print("Capas identificadas:", result_4_tcp_http.layers)
-print("\n")
-
-print("Paquete (ETHERNET + IPv6 + TCP + HTTP): ")
-result_6_tcp_http = analyze_packet(raw_packet_6_tcp_http)
-print("Capas identificadas:", result_6_tcp_http.layers)
-
-print("####################################################################################################")
+var = st.form
+st.title("Candela")
+candela = 'twotomany.pcap'
+print(candela)
+captured_packet = pcap_to_array('twotomany.pcap')
+print(f"Número de paquetes: {len(captured_packet)}")
