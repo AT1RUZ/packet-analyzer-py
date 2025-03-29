@@ -12,6 +12,7 @@ class Packet:
     
     def set_current_offset(self, offset):
         self._current_offset = offset
+        
     def get_current_offset(self):
         return self._current_offset
         

@@ -39,3 +39,44 @@ def read_dns_name(data, offset):
         name.append(data[offset:offset+length].decode())
         offset += length
     return ".".join(name), offset + 1
+
+#Usado en FTP
+def read_ascii_string(data):
+    """Convierte bytes a string ASCII, eliminando espacios en blanco"""
+    try:
+        return data.decode('ascii').strip()
+    except UnicodeDecodeError:
+        return None
+    
+#Usado en FTP
+def read_ascii_until_space(data):
+    """Lee string ASCII hasta encontrar un espacio"""
+    try:
+        ascii_str = data.decode('ascii')
+        space_index = ascii_str.find(' ')
+        if space_index == -1:
+            return ascii_str.strip(), None
+        return ascii_str[:space_index], ascii_str[space_index + 1:].strip()
+    except UnicodeDecodeError:
+        return None, None
+
+#Usado en SSDP
+def read_http_headers(data):
+    """Lee headers en formato HTTP/SSDP"""
+    try:
+        headers = {}
+        header_text = data.decode('utf-8').strip()
+        lines = header_text.split('\r\n')
+        
+        # Primera línea es especial (método/status)
+        start_line = lines[0]
+        
+        # Resto son headers
+        for line in lines[1:]:
+            if ': ' in line:
+                key, value = line.split(': ', 1)
+                headers[key.upper()] = value
+        
+        return start_line, headers
+    except UnicodeDecodeError:
+        return None, None
