@@ -109,9 +109,28 @@ raw_packet = (
 #
 # print("####################################################################################################")
 
-var = st.form
-st.title("Candela")
-candela = 'twotomany.pcap'
-print(candela)
-captured_packet = pcap_to_array('twotomany.pcap')
-print(f"Número de paquetes: {len(captured_packet)}")
+upload_pcap = st.file_uploader("El co;o de tu madre")
+if upload_pcap is not None:
+    try:
+        # Guardar temporalmente el archivo cargado
+        with open("temp.pcap", "wb") as f:
+            f.write(upload_pcap.getbuffer())
+
+        # Leer el PCAP con Scapy
+        from scapy.all import rdpcap, IP_PROTOS
+        packets = rdpcap("temp.pcap")
+        candela = "temp.pcap"
+        print(candela)
+        # Mostrar información básica
+        st.success(f"¡Archivo cargado! Número de paquetes: {len(packets)}")
+
+        # Ejemplo: Mostrar resumen de los primeros 5 paquetes
+        for pkt in packets[:5]:
+            st.write(pkt.summary())
+
+    except Exception as e:
+        st.error(f"Error: {str(e)}")
+
+
+
+
