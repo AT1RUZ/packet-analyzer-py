@@ -1,5 +1,6 @@
 from core.dissector import Dissector
 from core.registry import *
+from core.registry import *
 from utils.byte_ops import read_ascii_string, read_ascii_until_space
 
 class FTPDissector(Dissector):

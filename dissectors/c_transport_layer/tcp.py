@@ -36,7 +36,4 @@ class TCPDissector(Dissector):
         
         return packet.get_payload(), next_dissector
 
-# Registros de puertos conocidos
-DissectorRegistry.register('tcp_port', 80, HTTPDissector)
-DissectorRegistry.register('tcp_port', 21, FTPDissector)  # FTP Control
-DissectorRegistry.register('tcp_port', 20, FTPDissector)  # FTP Data
+DissectorRegistry.register('ip_proto', 6, TCPDissector)

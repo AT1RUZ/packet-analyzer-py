@@ -23,7 +23,7 @@ class EthernetDissector(Dissector):
         packet.set_current_offset(14)
         return packet.get_payload(), next_dissector
     
-DissectorRegistry.register('ethertype', 0x0800, IPv4Dissector)
-DissectorRegistry.register('ethertype', 0x86DD, IPv6Dissector)
-DissectorRegistry.register('ethertype', 0x0806, ARPDissector)
+
+
+
 

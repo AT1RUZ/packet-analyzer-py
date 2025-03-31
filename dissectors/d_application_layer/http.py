@@ -1,5 +1,6 @@
 from core.dissector import Dissector
 from collections import defaultdict
+from core.registry import *
 
 class HTTPDissector(Dissector):
     def dissect(self, packet):
@@ -66,3 +67,5 @@ class HTTPDissector(Dissector):
             })
 
         return None, None  # Fin de la cadena
+    
+DissectorRegistry.register('tcp_port', 80, HTTPDissector)

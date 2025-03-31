@@ -33,5 +33,6 @@ class IPv6Dissector(Dissector):
         return packet.get_payload(), next_dissector
 
 # Registro para protocolos comunes sobre IPv6
+DissectorRegistry.register('ethertype', 0x86DD, IPv6Dissector)
 DissectorRegistry.register('ip_proto', 6, TCPDissector)  # TCP
 DissectorRegistry.register('ip_proto', 17, UDPDissector) # UDP

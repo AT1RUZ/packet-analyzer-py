@@ -23,6 +23,4 @@ class UDPDissector(Dissector):
         
         return packet.get_payload(), next_dissector
 
-# Registro para puertos conocidos
-DissectorRegistry.register('udp_port', 53, DNSDissector)  # DNS
-DissectorRegistry.register('udp_port', 1900, SSDPDissector)
+DissectorRegistry.register('ip_proto', 17, UDPDissector)

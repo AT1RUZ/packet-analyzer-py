@@ -1,4 +1,4 @@
-=== Información del archivo PCAP ===
+=== Informaciï¿½n del archivo PCAP ===
 magic_number: 0xa1b2c3d4
 version: 2.4
 timezone: 0

@@ -28,6 +28,7 @@ class IPv4Dissector(Dissector):
         packet.set_current_offset(packet.get_current_offset() + ihl)
         
         return packet.get_payload(), next_dissector
+    
+DissectorRegistry.register('ethertype', 0x0800, IPv4Dissector)
 
-DissectorRegistry.register('ip_proto', 6, TCPDissector)
-DissectorRegistry.register('ip_proto', 17, UDPDissector)
+
