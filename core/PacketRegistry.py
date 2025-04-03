@@ -1,11 +1,21 @@
 from collections import deque
-import pcapReader
+from core.packet import Packet
+from core.pcapReader import PcapReader
 
 class PacketRegistry:
     def __init__(self, archivoPcap):
-        self.pcapReader = pcapReader.PcapReader(archivoPcap)
+        self.pcapReader = PcapReader(archivoPcap)
         self.packetQueue = deque()
+        self.dissected_packets = []
+        
+    def get_dissected_packets(self):
+        if len(self.dissected_packets) > 0:
+            return None
+        return self.dissected_packets
 
+    def add_dissected_packet(self, packet: Packet ):
+        self.dissected_packets.append(packet)
+    
     def procesarPaquetes(self):
         try:
             self.pcapReader.abrir()

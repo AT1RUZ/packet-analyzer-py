@@ -1,5 +1,5 @@
-from core.dissector import Dissector
-from core.registry import *
+from dissectors.dissector import Dissector
+from dissectors.registry import *
 from dissectors.c_transport_layer.tcp import *
 from dissectors.c_transport_layer.udp import *
 from utils.byte_ops import read_uint8
@@ -29,5 +29,5 @@ class IPv4Dissector(Dissector):
         
         return packet.get_payload(), next_dissector
 
-DissectorRegistry.register('ip_proto', 6, TCPDissector)
-DissectorRegistry.register('ip_proto', 17, UDPDissector)
+# DissectorRegistry.register('ip_proto', 6, TCPDissector)
+# DissectorRegistry.register('ip_proto', 17, UDPDissector)

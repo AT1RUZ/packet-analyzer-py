@@ -1,5 +1,5 @@
-from core.dissector import Dissector
-from core.registry import *
+from dissectors.dissector import Dissector
+from dissectors.registry import *
 from dissectors.d_application_layer.http import HTTPDissector
 from dissectors.d_application_layer.ftp import FTPDissector
 from utils.byte_ops import read_uint16_be
@@ -37,6 +37,6 @@ class TCPDissector(Dissector):
         return packet.get_payload(), next_dissector
 
 # Registros de puertos conocidos
-DissectorRegistry.register('tcp_port', 80, HTTPDissector)
-DissectorRegistry.register('tcp_port', 21, FTPDissector)  # FTP Control
-DissectorRegistry.register('tcp_port', 20, FTPDissector)  # FTP Data
+# DissectorRegistry.register('tcp_port', 80, HTTPDissector)
+# DissectorRegistry.register('tcp_port', 21, FTPDissector)  # FTP Control
+# DissectorRegistry.register('tcp_port', 20, FTPDissector)  # FTP Data

@@ -1,4 +1,4 @@
-from core.dissector import Dissector
+from dissectors.dissector import Dissector
 from utils import byte_ops
 
 class DNSDissector(Dissector):

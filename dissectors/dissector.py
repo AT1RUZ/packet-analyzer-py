@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from core.registry import *
+from dissectors.registry import *
 
 class Dissector(ABC):
     @abstractmethod

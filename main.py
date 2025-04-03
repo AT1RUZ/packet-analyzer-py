@@ -1,4 +1,5 @@
 from core.packet_analyzer import PacketAnalyzer
+from core.PacketRegistry import PacketRegistry
 import time
 
 # p1 = PacketAnalyzer("twotomany.pcap")
@@ -13,19 +14,14 @@ import time
 # fin = time.time()
 # print(f"Tiempo total: {fin - inicio} segundos en ejecutar algoritmo e imprimir en pantalla")
 
-p3 = PacketAnalyzer("Noobs Keylogger.pcap")
-inicio = time.time()
-p3.write_pcap_packet_info("prueba.txt")
-fin = time.time()
-print(f"Tiempo total: {fin - inicio} segundos en ejecutar algoritmo e escribir en txt")
+# p3 = PacketAnalyzer("Noobs Keylogger.pcap")
+# inicio = time.time()
+# p3.write_pcap_packet_info("prueba.txt")
+# fin = time.time()
+# print(f"Tiempo total: {fin - inicio} segundos en ejecutar algoritmo e escribir en txt")
 
 
-
-
-
-
-
-
+p = PacketAnalyzer("Noobs Keylogger.pcap")
 
 
 

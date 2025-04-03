@@ -1,5 +1,5 @@
-from core.dissector import Dissector
-from core.registry import *
+from dissectors.dissector import Dissector
+from dissectors.registry import *
 from dissectors.d_application_layer.dns import DNSDissector
 from dissectors.d_application_layer.ssdp import SSDPDissector
 from utils import byte_ops
@@ -24,5 +24,5 @@ class UDPDissector(Dissector):
         return packet.get_payload(), next_dissector
 
 # Registro para puertos conocidos
-DissectorRegistry.register('udp_port', 53, DNSDissector)  # DNS
-DissectorRegistry.register('udp_port', 1900, SSDPDissector)
+# DissectorRegistry.register('udp_port', 53, DNSDissector)  # DNS
+# DissectorRegistry.register('udp_port', 1900, SSDPDissector)

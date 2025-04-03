@@ -1,7 +1,7 @@
 from core.packet import Packet
-from core.registry import *
-from core.pcap_analyzer import PcapPacket
-from dissectors.a_link_layer.ethernet import EthernetDissector
+from core.pcapReader import PcapReader
+from core.PacketRegistry import PacketRegistry
+from dissectors.registry import DissectorRegistry
 
 class PacketAnalyzer:
     def __init__(self, file_path):
@@ -9,51 +9,44 @@ class PacketAnalyzer:
         
         Args:
             file_path (str): Ruta al archivo PCAP a analizar
-        
-        Raises:
-            FileNotFoundError: Si no se encuentra el archivo
-            Exception: Si hay un error al cargar el archivo
         """
         
-        
-        try:
-            with open(file_path, "rb") as p:
-                raw_pcap_file = p.read()
-                self.__pcap_analyzer = PcapPacket(raw_pcap_file)
-        except FileNotFoundError:
-            print(f"Error: No se pudo encontrar el archivo {file_path}")
-            raise
-        except Exception as e:
-            print(f"Error al cargar el archivo: {str(e)}")
-            raise
-
+        self.pcap = PcapReader(file_path)
+        self.pcap_reader = self.pcap.abrir()
+        self.dissector_registry = DissectorRegistry()
+        self.packet_registry = PacketRegistry(file_path)
+        self.analyzed_packets = 0
+    
     def analyze_pcap_file(self):
         """Analiza el archivo PCAP cargado"""
         able_to_analyze = True
         while able_to_analyze:
-            raw_packet = self.__pcap_analyzer.get_next_packet()
+            raw_packet = self.pcap_reader.leerSiguientePaquete()
+            print(raw_packet)
             if not raw_packet:
                 able_to_analyze = False
             else:
-                analyzed_packet = self.__analyze_packet(raw_packet)
-                self.__pcap_analyzer.add_packet_protocols_info(analyzed_packet)
+                packet = Packet(raw_packet)
+                print(packet)
+                self.analyzed_packets += 1
+                # analyzed_packet = self.__analyze_packet(packet)
+                # self.packet_registry.add_dissected_packet(analyzed_packet)
+        print(self.analyzed_packets)
         return True
 
-    def __analyze_packet(self, raw_data):
+    def __analyze_packet(self, packet):
         """Analiza un paquete individual"""
-        if len(raw_data) != 0:
-            packet = Packet(raw_data)
-            current_dissector = EthernetDissector()
-            payload = raw_data
+       
+        current_dissector = self.dissector_registry.get_dissector('link_layer','eth')
             
-            while current_dissector and payload:
-                payload, next_dissector_class = current_dissector.dissect(packet)
-                if next_dissector_class:
-                    current_dissector = next_dissector_class()
-                else:
-                    current_dissector = None
-            return packet
-        return None
+        while current_dissector and payload:
+            payload, next_dissector_class = current_dissector.dissect(packet)
+            if next_dissector_class:
+                current_dissector = next_dissector_class()
+            else:
+                current_dissector = None
+        return packet
+        
     
     def print_pcap_packet_info(self):
         """Imprime la información de los paquetes PCAP analizados"""

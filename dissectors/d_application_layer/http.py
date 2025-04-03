@@ -1,4 +1,4 @@
-from core.dissector import Dissector
+from dissectors.dissector import Dissector
 from collections import defaultdict
 
 class HTTPDissector(Dissector):

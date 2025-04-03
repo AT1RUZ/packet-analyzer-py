@@ -56,7 +56,7 @@ class PcapReader:
                     print(f"Advertencia: Lectura incompleta del paquete número {self.indiceActual + 1}.")
                     return None
 
-                return cabeceraPaquete + datosPaquete
+                return datosPaquete
             except struct.error:
                 return None # Error al desempaquetar la cabecera (posible fin de archivo)
         return None

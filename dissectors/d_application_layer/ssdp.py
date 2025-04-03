@@ -1,5 +1,5 @@
-from core.dissector import Dissector
-from core.registry import *
+from dissectors.dissector import Dissector
+from dissectors.registry import *
 from utils.byte_ops import read_http_headers
 
 class SSDPDissector(Dissector):
@@ -61,4 +61,4 @@ class SSDPDissector(Dissector):
         return None, None
 
 # Registrar el disector para SSDP (UDP puerto 1900)
-DissectorRegistry.register('udp_port', 1900, SSDPDissector) 
+# DissectorRegistry.register('udp_port', 1900, SSDPDissector) 
