@@ -11,6 +11,7 @@ import struct
 
 class EthernetDissector(Dissector):
     def dissect(self, packet):
+        fullPacket = packet
         header = packet.get_payload()
         dest_mac = extract_mac(header[0:6])
         src_mac = extract_mac(header[6:12])
@@ -26,21 +27,24 @@ class EthernetDissector(Dissector):
         next_dissector = DissectorRegistry.get_dissector('ethertype', ethertype)
         packet.set_current_offset(14)
 
+
         return packet.get_payload(), next_dissector
-    
+
+        # El CRC es un metodo para verificar si la  subtrama perteneciente a la capa de enlace no esta corrupta o con datos perdidos
+        # para este protocolo se usa la funcion de verificacion crc32 de la biblioteca binascii
+        # La funcion debe recibir el puntero  y la informacion cruda del paquete
+
+    def verificar_crc32_ethernet(packet):
+        calculated_crc = binascii.crc32(
+            packet.raw_data[
+            :packet.raw_data - 4]) & 0xFFFFFFFF  # Calcula crc sobre el fragmento sin los últimos 4 bytes (FCS)
+        received_crc = struct.unpack('<I', packet.raw_data[- 4:])[
+            0]  # Lee los últimos 4 bytes como el crc recibido
+        return calculated_crc == received_crc
+
+
 DissectorRegistry.register('ethertype', 0x0800, IPv4Dissector)
 DissectorRegistry.register('ethertype', 0x86DD, IPv6Dissector)
 DissectorRegistry.register('ethertype', 0x0806, ARPDissector)
 
 
-#El CRC es un metodo para verificar si la  subtrama perteneciente a la capa de enlace no esta corrupta o con datos perdidos
-    #para este protocolo se usa la funcion de verificacion crc32 de la biblioteca binascii
-    #La funcion debe recibir el puntero  y la informacion cruda del paquete
-def verificar_crc32_ethernet(packet):
-
-    calculated_crc = binascii.crc32(
-        packet.raw_data[
-        :packet.raw_data-4]) & 0xFFFFFFFF  # Calcula crc sobre el fragmento sin los últimos 4 bytes (FCS)
-    received_crc = struct.unpack('<I', packet.raw_data[- 4:])[
-        0]  # Lee los últimos 4 bytes como el crc recibido
-    return calculated_crc == received_crc
