@@ -1,3 +1,5 @@
+
+
 class Packet:
     def __init__(self, raw_data):
         self.raw_data = raw_data
@@ -15,4 +17,6 @@ class Packet:
         
     def get_current_offset(self):
         return self._current_offset
-        
+
+    #El CRC es un metodo para verificar si la  subtrama perteneciente a la capa de enlace no esta corrupta o con datos perdidos
+    #para este protocolo se usa la funcion de verificacion crc32 de la biblioteca binascii
