@@ -6,6 +6,3 @@ class Dissector(ABC):
     def dissect(self, packet):
         pass
     
-    @classmethod
-    def register(cls, protocol_type, identifier, dissector):
-        DissectorRegistry.register(protocol_type, identifier, dissector)

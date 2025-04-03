@@ -65,4 +65,4 @@ class HTTPDissector(Dissector):
                 'raw': packet.raw_data[:100].hex()  # Muestra primeros 100 bytes en hex
             })
 
-        return None, None  # Fin de la cadena
+        return None, None, None, None  # Fin de la cadena

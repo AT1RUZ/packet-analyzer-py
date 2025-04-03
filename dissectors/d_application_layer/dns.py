@@ -32,7 +32,4 @@ class DNSDissector(Dissector):
             })
         
         packet.add_layer('DNS', dns_info)
-        return None, None  # Fin de la cadena
-
-# Registro automático para UDP puerto 53
-# DNSDissector.register('udp_port', 53, DNSDissector)
+        return None, None, None, None  # Fin de la cadena

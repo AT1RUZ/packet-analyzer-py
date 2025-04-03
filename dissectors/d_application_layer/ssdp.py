@@ -58,7 +58,4 @@ class SSDPDissector(Dissector):
                 }
             })
 
-        return None, None
-
-# Registrar el disector para SSDP (UDP puerto 1900)
-# DissectorRegistry.register('udp_port', 1900, SSDPDissector) 
+        return None, None, None, None

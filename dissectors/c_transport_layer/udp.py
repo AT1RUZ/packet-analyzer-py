@@ -11,18 +11,15 @@ class UDPDissector(Dissector):
         dst_port = byte_ops.read_uint16_be(info[2:4])
         length = byte_ops.read_uint16_be(info[4:6])
         
-        packet.add_layer('UDP', {
+        layer_data = ('UDP', {
             'src_port': src_port,
             'dst_port': dst_port,
             'length': length
         })
         
-        next_dissector = DissectorRegistry.get_dissector('udp_port', dst_port)
+        next_dissector_type =  'udp_port_types'
+        next_dissector_id = dst_port
         
         packet.set_current_offset(packet.get_current_offset() + 8)
         
-        return packet.get_payload(), next_dissector
-
-# Registro para puertos conocidos
-# DissectorRegistry.register('udp_port', 53, DNSDissector)  # DNS
-# DissectorRegistry.register('udp_port', 1900, SSDPDissector)
+        return packet.get_payload(), next_dissector_type, next_dissector_id, layer_data

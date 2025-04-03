@@ -2,6 +2,7 @@ from core.packet import Packet
 from core.pcapReader import PcapReader
 from core.PacketRegistry import PacketRegistry
 from dissectors.registry import DissectorRegistry
+from dissectors.dissector import Dissector
 
 class PacketAnalyzer:
     def __init__(self, file_path):
@@ -16,33 +17,35 @@ class PacketAnalyzer:
         self.dissector_registry = DissectorRegistry()
         self.packet_registry = PacketRegistry(file_path)
         self.analyzed_packets = 0
+        self.pcaps_analyzed = 0
     
     def analyze_pcap_file(self):
         """Analiza el archivo PCAP cargado"""
         able_to_analyze = True
         while able_to_analyze:
             raw_packet = self.pcap_reader.leerSiguientePaquete()
-            print(raw_packet)
             if not raw_packet:
                 able_to_analyze = False
             else:
                 packet = Packet(raw_packet)
-                print(packet)
+                analyzed_packet = self.__analyze_packet(packet)
+                self.packet_registry.add_dissected_packet(analyzed_packet)
                 self.analyzed_packets += 1
-                # analyzed_packet = self.__analyze_packet(packet)
-                # self.packet_registry.add_dissected_packet(analyzed_packet)
-        print(self.analyzed_packets)
+        self.pcaps_analyzed += 1
         return True
 
-    def __analyze_packet(self, packet):
+    def __analyze_packet(self, packet: Packet):
         """Analiza un paquete individual"""
        
-        current_dissector = self.dissector_registry.get_dissector('link_layer','eth')
-            
-        while current_dissector and payload:
-            payload, next_dissector_class = current_dissector.dissect(packet)
-            if next_dissector_class:
-                current_dissector = next_dissector_class()
+        current_dissector = self.dissector_registry.get_dissector('link_layer_types','eth')
+        payload = packet.raw_data
+       
+        while current_dissector and payload :
+            payload, next_dissector_type, next_dissector_id, layer_data = current_dissector.dissect(packet)
+            if layer_data:
+                packet.add_layer(layer_data[0], layer_data[1])
+            if next_dissector_type and next_dissector_id:
+                current_dissector = self.dissector_registry.get_dissector(next_dissector_type, next_dissector_id)
             else:
                 current_dissector = None
         return packet

@@ -4,7 +4,7 @@ class DissectorRegistry:
     def __init__(self):
         self._registry = {
             'link_layer_types': {},
-            'ether_type': {},
+            'ether_types': {},
             'ip_proto_types': {},
             'tcp_port_types': {},
             'udp_port_types': {}
@@ -19,7 +19,11 @@ class DissectorRegistry:
     
     
     def get_dissector(self, protocol_type, identifier):
-        return self._registry[protocol_type].get(identifier)
+        disector_class = self._registry[protocol_type].get(identifier)
+        if disector_class:
+            return disector_class()
+        else:
+            return None
     
     
     def get_registry(self):

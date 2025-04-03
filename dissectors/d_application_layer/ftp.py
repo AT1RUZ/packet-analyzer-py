@@ -68,8 +68,4 @@ class FTPDissector(Dissector):
                     'type': 'request'
                 })
 
-        return None, None
-
-# Registrar el disector para los puertos FTP
-# DissectorRegistry.register('tcp_port', 21, FTPDissector)  # Puerto de control FTP
-# DissectorRegistry.register('tcp_port', 20, FTPDissector)  # Puerto de datos FTP 
+        return None, None, None, None

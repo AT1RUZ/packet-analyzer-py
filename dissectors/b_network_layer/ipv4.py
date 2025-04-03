@@ -7,27 +7,25 @@ from utils.byte_ops import read_uint8
 class IPv4Dissector(Dissector):
     def dissect(self, packet):
         payload = packet.get_payload()
-        # El IHL está en los 4 bits menos significativos del primer byte
-        ihl = (payload[0] & 0x0F) * 4  # multiplicamos por 4 para obtener bytes
         
-        # Verificar que el IHL sea válido (mínimo 20 bytes, máximo 60 bytes)
+        ihl = (payload[0] & 0x0F) * 4
+        
         if ihl < 20 or ihl > 60:
             raise ValueError(f"IHL inválido: {ihl} bytes")
             
         protocol = read_uint8(payload[9])
-        packet.add_layer('IPv4', {
+        layer_data = ('IPv4', {
             'src_ip': '.'.join(map(str, payload[12:16])),
             'dst_ip': '.'.join(map(str, payload[16:20])),
             'protocol': protocol,
             'header_length': ihl
         })
         
-        next_dissector = DissectorRegistry.get_dissector('ip_proto', protocol)
+        next_dissector_type =  'ip_proto_types'
+        next_dissector_id = protocol
         
         # Actualizar el offset para el siguiente protocolo
         packet.set_current_offset(packet.get_current_offset() + ihl)
         
-        return packet.get_payload(), next_dissector
+        return packet.get_payload(), next_dissector_type, next_dissector_id, layer_data 
 
-# DissectorRegistry.register('ip_proto', 6, TCPDissector)
-# DissectorRegistry.register('ip_proto', 17, UDPDissector)

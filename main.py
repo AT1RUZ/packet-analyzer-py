@@ -21,7 +21,13 @@ import time
 # print(f"Tiempo total: {fin - inicio} segundos en ejecutar algoritmo e escribir en txt")
 
 
-p = PacketAnalyzer("Noobs Keylogger.pcap")
+inicio = time.time()
+packets = 0
+for i  in range(1000):
+    p = PacketAnalyzer("Noobs Keylogger.pcap")
+    p.analyze_pcap_file()
+    packets += p.analyzed_packets
+fin = time.time()
 
-
+print(f"Paquetes analizados: {packets} \nArchivos .pcap analizados: {i+1} \nTiempo: {fin - inicio} segundos el algoritmo solo")
 
