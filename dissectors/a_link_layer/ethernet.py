@@ -5,9 +5,9 @@ import binascii
 import struct
 
 
+
 class EthernetDissector(Dissector):
     def dissect(self, packet):
-        fullPacket = packet
         header = packet.get_payload()
         dest_mac = extract_mac(header[0:6])
         src_mac = extract_mac(header[6:12])
@@ -24,10 +24,10 @@ class EthernetDissector(Dissector):
         next_dissector_id = ethertype
         packet.set_current_offset(14)
 
-        if self.verificar_crc32_ethernet(packet):
-         return packet.get_payload(), next_dissector_type, next_dissector_id, layer_data
-        else:
-             return None
+        # if self.verificar_crc32_ethernet(packet):
+        return packet.get_payload(), next_dissector_type, next_dissector_id, layer_data
+        # else:
+        #      return None, None, None, None
 
         # El CRC es un metodo para verificar si la  subtrama perteneciente a la capa de enlace no esta corrupta o con datos perdidos
         # para este protocolo se usa la funcion de verificacion crc32 de la biblioteca binascii
@@ -39,10 +39,12 @@ class EthernetDissector(Dissector):
         inicioFragmentoFCS =int(packet.getrawDataSize()) - int(sizeFCSenBytes)
         fcsDataFragment = packet.getRawData(inicioFragmentoFCS, sizeFCSenBytes)
         datosParaElCalculo = packet.getRawData(0,dataLenght)
+        binary_string = ''.join(format(byte, '08b') for byte in fcsDataFragment)
+        byteFCS = int(binary_string,2)
         calculated_crc = binascii.crc32(datosParaElCalculo) & 0xFFFFFFFF  # Calcula crc sobre el fragmento sin los últimos 4 bytes (FCS) ni los primeros 8 bytes
 
 
-        return calculated_crc == fcsDataFragment
+        return calculated_crc == byteFCS
 
 
 

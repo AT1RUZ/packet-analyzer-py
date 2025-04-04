@@ -9,7 +9,7 @@ class PacketRegistry:
         self.dissected_packets = []
         
     def get_dissected_packets(self):
-        if len(self.dissected_packets) > 0:
+        if len(self.dissected_packets) <= 0:
             return None
         return self.dissected_packets
 

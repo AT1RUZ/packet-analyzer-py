@@ -23,9 +23,10 @@ import time
 
 inicio = time.time()
 packets = 0
-for i  in range(1):
+for i  in range(15):
     p = PacketAnalyzer("Noobs Keylogger.pcap")
     p.analyze_pcap_file()
+    p.guardarJSON()
     packets += p.analyzed_packets
 fin = time.time()
 
