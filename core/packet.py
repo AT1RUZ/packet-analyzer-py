@@ -8,7 +8,8 @@ class Packet:
         self.rawDataSize = len(raw_data)
 
     def getRawData(self,inicio, longitud):
-        return self.raw_data[inicio:inicio+longitud]
+        inicioParse = int(inicio)
+        return self.raw_data[inicioParse:inicio+longitud]
 
     def getrawDataSize(self):
         entero = int(self.rawDataSize)
