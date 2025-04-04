@@ -1,7 +1,6 @@
 from dissectors.dissector import Dissector
 from dissectors.registry import *
-from dissectors.d_application_layer.dns import DNSDissector
-from dissectors.d_application_layer.ssdp import SSDPDissector
+
 from utils import byte_ops
 
 class UDPDissector(Dissector):

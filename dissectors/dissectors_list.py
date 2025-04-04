@@ -1,4 +1,14 @@
 from dissectors.a_link_layer.ethernet import *
+from dissectors.b_network_layer.ipv4 import *
+from dissectors.b_network_layer.ipv6 import *
+from dissectors.b_network_layer.arp import *
+from dissectors.c_transport_layer.tcp import *
+from dissectors.c_transport_layer.udp import *
+from dissectors.d_application_layer.http import HTTPDissector
+from dissectors.d_application_layer.ftp import FTPDissector
+from dissectors.d_application_layer.dns import DNSDissector
+from dissectors.d_application_layer.ssdp import SSDPDissector
+
 
 def get_dissectors_list():
     return [

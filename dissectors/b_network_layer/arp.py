@@ -1,7 +1,6 @@
 from dissectors.dissector import Dissector
 from dissectors.registry import *
-from dissectors.c_transport_layer.tcp import *
-from dissectors.c_transport_layer.udp import *
+
 
 class ARPDissector(Dissector):
     def dissect(self, packet):

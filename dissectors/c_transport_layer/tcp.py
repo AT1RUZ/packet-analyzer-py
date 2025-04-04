@@ -1,7 +1,6 @@
 from dissectors.dissector import Dissector
 from dissectors.registry import *
-from dissectors.d_application_layer.http import HTTPDissector
-from dissectors.d_application_layer.ftp import FTPDissector
+
 from utils.byte_ops import read_uint16_be
 
 class TCPDissector(Dissector):

@@ -1,10 +1,7 @@
 from operator import truediv
 
 from dissectors.dissector import Dissector
-from dissectors.b_network_layer.ipv4 import *
-from dissectors.b_network_layer.ipv6 import *
-from dissectors.b_network_layer.arp import *
-from dissectors.registry import *
+
 from utils.byte_ops import extract_mac, read_uint16_be
 import binascii
 import struct
