@@ -1,6 +1,5 @@
-from core.dissector import Dissector
-from core.registry import *
-from core.registry import *
+from dissectors.dissector import Dissector
+from dissectors.registry import *
 from utils.byte_ops import read_ascii_string, read_ascii_until_space
 
 class FTPDissector(Dissector):
@@ -69,8 +68,4 @@ class FTPDissector(Dissector):
                     'type': 'request'
                 })
 
-        return None, None
-
-# Registrar el disector para los puertos FTP
-DissectorRegistry.register('tcp_port', 21, FTPDissector)  # Puerto de control FTP
-DissectorRegistry.register('tcp_port', 20, FTPDissector)  # Puerto de datos FTP 
+        return None, None, None, None

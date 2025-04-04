@@ -1,5 +1,5 @@
-from core.dissector import Dissector
-from core.registry import *
+from dissectors.dissector import Dissector
+from dissectors.registry import *
 from dissectors.c_transport_layer.tcp import *
 from dissectors.c_transport_layer.udp import *
 from utils import byte_ops
@@ -17,7 +17,7 @@ class IPv6Dissector(Dissector):
         src_ip = byte_ops.read_ipv6_address(header[8:24])
         dst_ip = byte_ops.read_ipv6_address(header[24:40])
         
-        packet.add_layer('IPv6', {
+        layer_data = ('IPv6', {
             'version': version,
             'traffic_class': traffic_class,
             'flow_label': flow_label,
@@ -28,11 +28,8 @@ class IPv6Dissector(Dissector):
             'dst_ip': dst_ip
         })
         
-        next_dissector = DissectorRegistry.get_dissector('ip_proto', next_header)
+        next_dissector_type =  'ip_proto_types'
+        next_dissector_id = next_header
+        
         packet.set_current_offset(packet.get_current_offset() + 40)
-        return packet.get_payload(), next_dissector
-
-# Registro para protocolos comunes sobre IPv6
-DissectorRegistry.register('ethertype', 0x86DD, IPv6Dissector)
-DissectorRegistry.register('ip_proto', 6, TCPDissector)  # TCP
-DissectorRegistry.register('ip_proto', 17, UDPDissector) # UDP
+        return packet.get_payload(), next_dissector_type, next_dissector_id, layer_data

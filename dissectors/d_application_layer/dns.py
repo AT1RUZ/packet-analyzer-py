@@ -1,4 +1,4 @@
-from core.dissector import Dissector
+from dissectors.dissector import Dissector
 from utils import byte_ops
 
 class DNSDissector(Dissector):
@@ -32,7 +32,4 @@ class DNSDissector(Dissector):
             })
         
         packet.add_layer('DNS', dns_info)
-        return None, None  # Fin de la cadena
-
-
-DNSDissector.register('udp_port', 53, DNSDissector)
+        return None, None, None, None  # Fin de la cadena
