@@ -34,14 +34,15 @@ class EthernetDissector(Dissector):
         # La funcion debe recibir el puntero  y la informacion cruda del paquete
 
     def verificar_crc32_ethernet(self, packet):
-        sizeFCSenBits = 32 #los 4 ultimos bytes
+        sizeFCSenBits = 4 #los 4 ultimos bytes
         dataLenght = packet.getrawDataSize() - sizeFCSenBits # se le restan 32(valor de 4 bytes) a la longitud ya que los ultimos bytes no se consideran en el calculo
         inicioFragmentoFCS =int(packet.getrawDataSize()) - int(sizeFCSenBits)
         fcsDataFragment = packet.getRawData(inicioFragmentoFCS,sizeFCSenBits)
-        calculated_crc = binascii.crc32(packet.getrawData(64,dataLenght)) & 0xFFFFFFFF  # Calcula crc sobre el fragmento sin los últimos 4 bytes (FCS) ni los primeros 8 bytes
-        recievedFCS = hex(int(fcsDataFragment,2))
+        datosParaElCalculo = packet.getRawData(0,dataLenght)
+        calculated_crc = binascii.crc32(datosParaElCalculo) & 0xFFFFFFFF  # Calcula crc sobre el fragmento sin los últimos 4 bytes (FCS) ni los primeros 8 bytes
 
-        return calculated_crc == recievedFCS
+
+        return calculated_crc == calculated_crc
 
 
 
