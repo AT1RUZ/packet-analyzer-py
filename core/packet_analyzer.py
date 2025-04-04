@@ -48,6 +48,7 @@ class PacketAnalyzer:
                 current_dissector = self.dissector_registry.get_dissector(next_dissector_type, next_dissector_id)
             else:
                 current_dissector = None
+        print(packet.layers)
         return packet
         
     
