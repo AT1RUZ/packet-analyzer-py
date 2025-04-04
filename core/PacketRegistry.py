@@ -15,6 +15,7 @@ class PacketRegistry:
 
     def add_dissected_packet(self, packet: Packet ):
         self.dissected_packets.append(packet)
+
     
     def procesarPaquetes(self):
         try:
