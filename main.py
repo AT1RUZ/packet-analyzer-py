@@ -23,12 +23,13 @@ import time
 
 inicio = time.time()
 packets = 0
-for i  in range(10):
-    p = PacketAnalyzer("Noobs Keylogger.pcap")
+path = "Noobs Keylogger.pcap"
+for i  in range(1):
+    p = PacketAnalyzer(path)
     p.analyze_pcap_file()
     p.guardarJSON()
     packets += p.analyzed_packets
 fin = time.time()
 
-print(f"Paquetes analizados: {packets} \nArchivos .pcap analizados: {i+1} \nTiempo: {fin - inicio} segundos el algoritmo solo")
+print(f"PCAP: {path} \nPaquetes analizados: {packets} \nArchivos .pcap analizados: {i+1} \nTiempo: {fin - inicio} segundos el algoritmo solo")
 

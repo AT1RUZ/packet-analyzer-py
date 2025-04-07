@@ -2,11 +2,14 @@ import json
 
 class export_to_JSON:
     def escribirJson(self,listaPaquetesDis):
-        archivoJSON = 'paqueteProcesado'
-
+        archivoJSON = 'paqueteProcesado.json'
+        i = 0
+        texto = "Paquete"
+        listadatos = []
+        for datos in listaPaquetesDis:
+            i += 1
+            listadatos.append(datos.getDissectedLayers())
         with open(archivoJSON,'w') as archivoJSON:
-            for datos in listaPaquetesDis:
-                json.dump(datos.getDissectedLayers(), archivoJSON, indent=4)
-
+          json.dump(listadatos, archivoJSON, indent=4)
 
 
