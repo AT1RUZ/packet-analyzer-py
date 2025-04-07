@@ -14,16 +14,6 @@ class PcapReader:
                 self.archivo = open(self.rutaArchivo, 'rb')
                 self.archivo.seek(self.posicionArchivo)
                 if self.ordenBytes is None:
-                    cabeceraGlobal = self.archivo.read(24)
-                    if len(cabeceraGlobal) < 24:
-                        raise ValueError("Archivo pcap incompleto o inválido (cabecera global).")
-                    numeroMagico = struct.unpack("<I", cabeceraGlobal[:4])[0]
-                    # if numeroMagico == 0xd4c3b2a1:
-                    #     self.ordenBytes = "<"
-                    # elif numeroMagico == 0xa1b2c3d4:
-                    #     self.ordenBytes = ">"
-                    # else:
-                    #     raise ValueError("Formato pcap no reconocido o endianness no soportado.")
                     self.ordenBytes = "<"
                     self.archivo.seek(self.posicionArchivo) # Volver a la posición guardada
             return self
