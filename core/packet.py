@@ -6,6 +6,7 @@ class Packet:
         self.dissected_layers = {}
         self._current_offset = 0
         self.rawDataSize = len(raw_data)
+        self.tempRawInfo = []
 
     def getRawData(self,inicio, longitud):
         inicioParse = int(inicio)
@@ -30,3 +31,9 @@ class Packet:
 
     def getDissectedLayers(self):
         return self.dissected_layers
+
+    def getTempRawInfo(self):
+        return self.tempRawInfo
+
+    def setTempRawInfo(self,info):
+        self.tempRawInfo = info
